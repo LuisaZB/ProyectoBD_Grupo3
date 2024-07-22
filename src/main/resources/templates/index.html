@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Hoteles</title>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla::header"></header>
+
+        <!-- Sección principal para mostrar información de los módulos -->
+        <section th:fragment="modulos" id="modulos" style="margin-top: 100px;">
+            <div class="container">
+                <div class="row">
+                    <!-- Módulo Hoteles -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Hoteles</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Gestiona la información de los hoteles disponibles, incluyendo sus detalles, servicios y más.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/hoteles}" role="button" >
+                                    Ver Hoteles
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Hoteles -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/338504/pexels-photo-338504.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de hoteles" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- Módulo Clientes -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Clientes</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Administra la información de los clientes, incluyendo sus datos de contacto y reservas realizadas.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/clientes}" role="button">
+                                    Ver Clientes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Clientes -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/1268855/pexels-photo-1268855.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de clientes" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- Módulo Reservaciones -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Reservaciones</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Consulta y gestiona todas las reservaciones realizadas, incluyendo detalles y fechas.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/reservaciones}" role="button" >
+                                    Ver Reservaciones
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Reservaciones -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de reservaciones" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- Módulo Empleados -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Empleados</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Gestiona la información de los empleados, incluyendo sus cargos, fechas de contratación y más.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/empleados}" role="button" >
+                                    Ver Empleados
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Empleados -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/2017802/pexels-photo-2017802.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de empleados" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- Módulo Facturas -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Facturas</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Consulta y gestiona las facturas generadas, incluyendo detalles de cada una.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/facturas}" role="button">
+                                    Ver Facturas
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Facturas -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/7820359/pexels-photo-7820359.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de facturas" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <!-- Módulo Comentarios -->
+                    <div class="col-md-6">
+                        <div class="text-center mt-5 p-1">
+                            <!-- Título -->
+                            <h2>Comentarios</h2>
+                        </div>
+                        <div class="text-start lh-base mt-3 p-1">
+                            <p class="fs-4">Administra y consulta los comentarios dejados por los clientes sobre los hoteles.</p>
+                            <!-- Botón -->
+                            <div><a class="btn btn-success btn-block" th:href="@{/comentarios}" role="button">
+                                    Ver Comentarios
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Imagen para Comentarios -->
+                    <div class="col-md-6">
+                        <img src="https://images.pexels.com/photos/6608154/pexels-photo-6608154.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
+                             alt="Imagen de comentarios" height="350" style="display: block; margin: auto; padding: 20px;" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="layout/plantilla::footer"></footer>
+
+    </body>
+</html>

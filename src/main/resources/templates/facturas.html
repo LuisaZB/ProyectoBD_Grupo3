@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Facturas</title>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla::header"></header>
+        <!-- Barra de búsqueda -->
+        <section class="py-4 mb-4 bg-light">
+            <div class="container">
+                <form th:action="@{/facturas/buscar}" method="get" class="d-flex">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar facturas" aria-label="Buscar">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="text-center mt-3 p-1">
+            <!-- Subtitulo -->
+            <h2>Facturas</h2>
+        </div>
+
+        <!-- Botón para agregar factura -->
+        <section class="py-4 mb-4 bg-light">
+            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="row">
+                    <div class="col-md-3">   
+                        <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarFactura">
+                            <i class="fas fa-plus"></i> Agregar Factura
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal para agregar factura -->
+        <section>
+            <div id="agregarFactura" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Agregar Factura</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div> 
+                        <form th:action="@{/facturas/guardar}" method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="idReservacion">Reservación</label>
+                                    <select name="idReservacion" id="idReservacion" class="form-control" required="true">
+                                        <option value="" disabled selected>Selecciona una reservación</option>
+                                        <option th:each="reservacion : ${reservaciones}" th:value="${reservacion.idReservacion}">
+                                            [[${reservacion.hotel.nombre}]] - [[${reservacion.cliente.nombre}]] [[${reservacion.cliente.apellido}]]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fechaEmision">Fecha de Emisión</label>
+                                    <input type="date" class="form-control" id="fechaEmision" name="fechaEmision" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="total">Total</label>
+                                    <input type="number" step="0.01" class="form-control" id="total" name="total" required="true"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Lista de facturas -->
+        <section>
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Lista de Facturas</h4>
+                    </div>
+                    <div th:if="${facturas != null and !facturas.empty}">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>ID Reservación</th>
+                                    <th>Reservación</th>
+                                    <th>Fecha de Emisión</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="factura, contador : ${facturas}">
+                                    <td>[[${contador.count}]]</td>
+                                    <td>[[${factura.idReservacion}]]</td>
+                                    <td>[[${factura.reservacion.hotel.nombre}]] - [[${factura.reservacion.cliente.nombre}]] [[${factura.reservacion.cliente.apellido}]]</td>
+                                    <td>[[${factura.fechaEmision}]]</td>
+                                    <td>[[${factura.total}]]</td>
+                                    <td>
+                                        <a th:href="@{/facturas/modificar/}+${factura.idFactura}" class="btn btn-success">
+                                            <i class="fas fa-pencil"></i> Editar
+                                        </a>
+                                        <a th:href="@{/facturas/eliminar/}+${factura.idFactura}" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${facturas == null or facturas.empty}">
+                        <span>No hay facturas disponibles</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </body>
+    <footer th:replace="layout/plantilla::footer"></footer>
+</body>
+</html>

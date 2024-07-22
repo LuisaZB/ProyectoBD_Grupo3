@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"       
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:fragment="head">
+        <title>Hotel</title>
+        <meta charset="UTF-8" />
+        <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet"/>
+        <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet"/>
+        <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+        <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+        <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>    
+        <script th:src="@{/js/rutinas.js}" type="text/javascript"></script>
+    </head>
+    <body>
+        <header th:fragment="header" class="header">
+            <div class="px-3 py-2 bg-dark text-white">
+                <div class="container">
+                    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                        <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                        </a>
+                        <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
+                            <li><a th:href="@{/}" class="nav-link text-white"><i class="fas fa-home"></i> Inicio</a></li>
+                            <li><a th:href="@{/hoteles}" class="nav-link text-white"><i class="fas fa-hotel"></i> Hoteles</a></li>
+                            <li><a th:href="@{/clientes}" class="nav-link text-white" ><i class="fas fa-users"></i> Clientes</a></li>
+                            <li><a th:href="@{/reservaciones}" class="nav-link text-white" ><i class="fas fa-calendar-alt"></i> Reservaciones</a></li>
+                            <li><a th:href="@{/empleados}" class="nav-link text-white"><i class="fas fa-user-tie"></i> Empleados</a></li>
+                            <li><a th:href="@{/facturas}" class="nav-link text-white"><i class="fas fa-file-invoice"></i> Facturas</a></li>
+                            <li><a th:href="@{/comentarios}" class="nav-link text-white" ><i class="fas fa-comments"></i> Comentarios</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <footer th:fragment="footer" class="bg-dark text-white mt-5 p-2">
+            <div class="container">
+                <div class="col">
+                    <p class="lead text-center">
+                        © 2024 Hotel
+                    </p>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
