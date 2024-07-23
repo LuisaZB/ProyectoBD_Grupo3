@@ -12,15 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/reservaciones")
 public class ReservacionesController {
-    
-    @RequestMapping("/reservaciones")
-    public String page(Model model) {
-        model.addAttribute("attribute", "value");
-        return "reservaciones";
-    }
-    
-     @Autowired
+
+    @Autowired
     private ReservacionDao reservaciondao;
 
     @Autowired
@@ -42,5 +37,4 @@ public class ReservacionesController {
         reservaciondao.save(reservacion);
         return "redirect:/reservaciones";
     }
-    
 }

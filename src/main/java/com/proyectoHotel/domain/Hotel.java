@@ -4,9 +4,8 @@ package com.proyectoHotel.domain;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import nonapi.io.github.classgraph.json.Id;
-
 
 @Entity
 @Table(name = "Hoteles")

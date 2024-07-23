@@ -12,14 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/clientes")
 public class ClientesController {
-    
-    @RequestMapping("/clientes")
-    public String page(Model model) {
-        model.addAttribute("attribute", "value");
-        return "clientes";
-    }
-    
-     @Autowired
+
+    @Autowired
     private ClienteDao clientedao;
 
     @GetMapping
@@ -33,5 +27,4 @@ public class ClientesController {
         clientedao.save(cliente);
         return "redirect:/clientes";
     }
-    
 }
