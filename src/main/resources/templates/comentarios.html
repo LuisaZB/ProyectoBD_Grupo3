@@ -2,133 +2,134 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head th:replace="~{layout/plantilla :: head}">
-    <title>Comentarios</title>
-</head>
-<body>
-<header th:replace="layout/plantilla::header"></header>
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Comentarios</title>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla::header"></header>
 
-<section class="py-4 mb-4 bg-light">
-    <div class="container">
-        <form th:action="@{/comentarios/buscar}" method="get" class="d-flex">
-            <input class="form-control me-2" type="search" name="query" placeholder="Buscar comentarios" aria-label="Buscar">
-            <button class="btn btn-outline-success" type="submit">Buscar</button>
-        </form>
-    </div>
-</section>
-
-<div class="text-center mt-3 p-1">
-    <h2>Comentarios</h2>
-</div>
-
-
-<section class="py-4 mb-4 bg-light">
-    <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
-        <div class="row">
-            <div class="col-md-3">
-                <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarComentario">
-                    <i class="fas fa-plus"></i> Agregar Comentario
-                </button>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section>
-    <div id="agregarComentario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title">Agregar Comentario</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form th:action="@{/comentarios/guardar}" method="POST" class="was-validated">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="idHotel">Hotel</label>
-                            <select name="idHotel" class="form-control" required="true">
-                                <option th:each="hotel : ${hoteles}" th:value="${hotel.id}">
-                                    [[${hotel.nombre}]]
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="idCliente">Cliente</label>
-                            <select name="idCliente" class="form-control" required="true">
-                                <option th:each="cliente : ${clientes}" th:value="${cliente.id}">
-                                    [[${cliente.nombre}]] [[${cliente.apellido}]]
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="comentario">Comentario</label>
-                            <textarea class="form-control" name="comentario" rows="4" required="true"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="puntuacion">Puntuación</label>
-                            <input type="number" class="form-control" name="puntuacion" min="1" max="5" required="true"/>
-                        </div>
-                        <div class="mb-3">
-                            <label for="fecha">Fecha</label>
-                            <input type="date" class="form-control" name="fecha" required="true"/>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">Guardar</button>
-                    </div>
+        <section class="py-4 mb-4 bg-light">
+            <div class="container">
+                <form th:action="@{/comentarios/buscar}" method="get" class="d-flex">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar comentarios" aria-label="Buscar">
+                        <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
-
-<section>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h4>Lista de Comentarios</h4>
-            </div>
-            <div th:if="${comentarios != null and !comentarios.empty}">
-                <table class="table table-striped table-hover">
-                    <thead class="table-dark">
-                    <tr>
-                        <th>#</th>
-                        <th>Hotel</th>
-                        <th>Cliente</th>
-                        <th>Comentario</th>
-                        <th>Puntuación</th>
-                        <th>Fecha</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="comentario, contador : ${comentarios}">
-                        <td>[[${contador.count}]]</td>
-                        <td>[[${comentario.hotel.nombre}]]</td>
-                        <td>[[${comentario.cliente.nombre}]] [[${comentario.cliente.apellido}]]</td>
-                        <td>[[${comentario.comentario}]]</td>
-                        <td>[[${comentario.puntuacion}]]</td>
-                        <td>[[${comentario.fecha}]]</td>
-                        <td>
-                            <a th:href="@{/comentarios/modificar/}+${comentario.id}" class="btn btn-success">
-                                <i class="fas fa-pencil"></i> Editar
-                            </a>
-                            <a th:href="@{/comentarios/eliminar/}+${comentario.id}" class="btn btn-danger">
-                                <i class="fas fa-trash"></i> Eliminar
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="text-center p-2" th:if="${comentarios == null or comentarios.empty}">
-                <span>No hay comentarios disponibles</span>
-            </div>
+        <div class="text-center mt-3 p-1">
+            <h2>Comentarios</h2>
         </div>
-    </div>
-</section>
-<footer th:replace="layout/plantilla::footer"></footer>
-</body>
+
+        <section class="py-4 mb-4 bg-light">
+            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarComentario">
+                            <i class="fas fa-plus"></i> Agregar Comentario
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div id="agregarComentario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Agregar Comentario</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/comentarios/guardar}" method="POST" class="was-validated">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="idComentario">ID</label>
+                                    <input type="number" id="idComentario" name="idComentario" class="form-control" required="true" />
+                                </div>
+                                <div class="mb-3">
+                                    <label for="idHotel">Hotel</label>
+                                    <select name="idHotel" class="form-control" required="true">
+                                        <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}">
+                                            [[${hotel.nombre}]]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="idCliente">Cliente</label>
+                                    <select name="idCliente" class="form-control" required="true">
+                                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}">
+                                            [[${cliente.nombre}]] [[${cliente.apellido}]]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="comentario">Comentario</label>
+                                    <textarea class="form-control" name="comentario" rows="4" required="true"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="puntuacion">Puntuación</label>
+                                    <input type="number" class="form-control" name="puntuacion" min="1" max="5" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" class="form-control" name="fecha" required="true"/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Lista de Comentarios</h4>
+                    </div>
+                    <div th:if="${comentarios != null and !comentarios.empty}">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Hotel</th>
+                                    <th>Cliente</th>
+                                    <th>Comentario</th>
+                                    <th>Puntuación</th>
+                                    <th>Fecha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="comentario, contador : ${comentarios}">
+                                    <td>[[${contador.count}]]</td>
+                                    <td>[[${comentario.hotel.nombre}]]</td>
+                                    <td>[[${comentario.cliente.nombre}]] [[${comentario.cliente.apellido}]]</td>
+                                    <td>[[${comentario.comentario}]]</td>
+                                    <td>[[${comentario.puntuacion}]]</td>
+                                    <td>[[${comentario.fecha}]]</td>
+                                    <td>
+                                        <a th:href="@{/comentarios/modificar/}+${comentario.idComentario}" class="btn btn-success">
+                                            <i class="fas fa-pencil"></i> Editar
+                                        </a>
+                                        <a th:href="@{/comentarios/eliminar/}+${comentario.idComentario}" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${comentarios == null or comentarios.empty}">
+                        <span>No hay comentarios disponibles</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <footer th:replace="layout/plantilla::footer"></footer>
+    </body>
 </html>

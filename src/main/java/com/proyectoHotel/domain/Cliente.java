@@ -1,9 +1,8 @@
 
 package com.proyectoHotel.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -11,21 +10,20 @@ import jakarta.persistence.Table;
 @Table(name = "Clientes")
 public class Cliente {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ID_Cliente")
+    private Long idCliente;
 
     private String nombre;
     private String apellido;
     private String correoElectronico;
     private String telefono;
 
-   
-    public Long getId() {
-        return id;
+    public Long getIdCliente() {
+        return idCliente;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {
@@ -59,4 +57,7 @@ public class Cliente {
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
+
+   
+   
 }

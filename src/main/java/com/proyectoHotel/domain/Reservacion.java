@@ -3,13 +3,14 @@ package com.proyectoHotel.domain;
 
 import jakarta.persistence.*;
 import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "Reservaciones")
 public class Reservacion {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "ID_Reservacion")
+    private Long idReservacion;
 
     @ManyToOne
     @JoinColumn(name = "ID_Hotel", nullable = false)
@@ -19,22 +20,25 @@ public class Reservacion {
     @JoinColumn(name = "ID_Cliente", nullable = false)
     private Cliente cliente;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Fecha_inicio")
     private Date fechaInicio;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Fecha_fin")
     private Date fechaFin;
 
     @Column(name = "Habitacion_asignada")
     private String habitacionAsignada;
 
-
-    public Long getId() {
-        return id;
+    
+    
+    public Long getIdReservacion() {
+        return idReservacion;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdReservacion(Long idReservacion) {
+        this.idReservacion = idReservacion;
     }
 
     public Hotel getHotel() {
