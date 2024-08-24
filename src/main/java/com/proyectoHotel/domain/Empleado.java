@@ -7,7 +7,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.util.Date;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "Empleados")
 public class Empleado {
@@ -19,10 +21,10 @@ public class Empleado {
     private String nombre;
     private String apellido;
     private String cargo;
-    
+
     @Column(name = "Fecha_contratacion")
     private Date fechaContratacion;
-    
+
     @ManyToOne
     @JoinColumn(name = "ID_Hotel", nullable = false)
     private Hotel hotel;
@@ -74,6 +76,4 @@ public class Empleado {
     public void setHotel(Hotel hotel) {
         this.hotel = hotel;
     }
-  
-
 }

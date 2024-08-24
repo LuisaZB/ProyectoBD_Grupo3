@@ -12,7 +12,7 @@
             <div class="container">
                 <form th:action="@{/empleados/buscar}" method="get" class="d-flex">
                     <input class="form-control me-2" type="search" name="query" placeholder="Buscar empleados" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
         </section>
@@ -20,7 +20,6 @@
         <div class="text-center mt-3 p-1">
             <h2>Empleados</h2>
         </div>
-
 
         <section class="py-4 mb-4 bg-light">
             <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
@@ -33,7 +32,6 @@
                 </div>
             </div>
         </section>
-
 
         <section>
             <div id="agregarEmpleado" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -83,7 +81,6 @@
             </div>
         </section>
 
-
         <section>
             <div class="container">
                 <div class="card">
@@ -112,10 +109,10 @@
                                     <td>[[${empleado.fechaContratacion}]]</td>
                                     <td>[[${empleado.hotel.nombre}]]</td>
                                     <td>
-                                        <a th:href="@{/empleados/modificar/}+${empleado.id}" class="btn btn-success">
+                                        <a th:href="@{/empleados/modificar/}+${empleado.idEmpleado}" class="btn btn-success">
                                             <i class="fas fa-pencil"></i> Editar
                                         </a>
-                                        <a th:href="@{/empleados/eliminar/}+${empleado.id}" class="btn btn-danger">
+                                        <a th:href="@{/empleados/eliminar/}+${empleado.idEmpleado}" class="btn btn-danger">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
                                     </td>

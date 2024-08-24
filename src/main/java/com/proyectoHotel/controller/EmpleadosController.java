@@ -15,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class EmpleadosController {
 
     @Autowired
-    private EmpleadoDao empleadodao;
+    private EmpleadoDao empleadoDao;
 
     @Autowired
-    private HotelDao hoteldao;
+    private HotelDao hotelDao;
 
     @GetMapping
     public String page(Model model) {
-        model.addAttribute("empleados", empleadodao.findAll());
-        model.addAttribute("hoteles", hoteldao.findAll());
+        model.addAttribute("empleados", empleadoDao.findAll());
+        model.addAttribute("hoteles", hotelDao.findAll());
         return "empleados";
     }
 
     @PostMapping("/guardar")
     public String guardarEmpleado(Empleado empleado) {
-        empleadodao.save(empleado);
+        empleadoDao.save(empleado);
         return "redirect:/empleados";
     }
 }

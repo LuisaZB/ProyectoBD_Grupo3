@@ -22,7 +22,18 @@
                             <li><a th:href="@{/}" class="nav-link text-white"><i class="fas fa-home"></i> Inicio</a></li>
                             <li><a th:href="@{/hoteles}" class="nav-link text-white"><i class="fas fa-hotel"></i> Hoteles</a></li>
                             <li><a th:href="@{/clientes}" class="nav-link text-white"><i class="fas fa-users"></i> Clientes</a></li>
-                            <li><a th:href="@{/reservaciones}" class="nav-link text-white"><i class="fas fa-calendar-alt"></i> Reservaciones</a></li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-calendar-alt"></i> Reservaciones
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" th:href="@{/reservaciones}">Reservaciones</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/reservacionesRestaurantes}">Reservaciones Restaurantes</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/reservaciones/habitaciones}">Reservaciones Habitaciones</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/reservaciones/servicios-adicionales}">Reservaciones Servicios Adicionales</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/historial-reservaciones}">Historial de Reservaciones</a></li>
+                                </ul>
+                            </li>
                             <li><a th:href="@{/empleados}" class="nav-link text-white"><i class="fas fa-user-tie"></i> Empleados</a></li>
                             <li><a th:href="@{/facturas}" class="nav-link text-white"><i class="fas fa-file-invoice"></i> Facturas</a></li>
                             <li><a th:href="@{/comentarios}" class="nav-link text-white"><i class="fas fa-comments"></i> Comentarios</a></li>

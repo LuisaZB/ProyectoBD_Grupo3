@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head th:replace="~{layout/plantilla :: head}">
         <title>Reservaciones</title>
     </head>
     <body>
         <header th:replace="layout/plantilla::header"></header>
 
+        <!-- Seccion de busquedad -->
         <section class="py-4 mb-4 bg-light">
             <div class="container">
                 <form th:action="@{/reservaciones/buscar}" method="get" class="d-flex">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar reservaciones" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    <input type="text" name="query" class="form-control me-2" placeholder="Buscar reservaciones" />
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
         </section>
@@ -21,9 +20,9 @@
             <h2>Reservaciones</h2>
         </div>
 
-
+        <!-- Seccion de agregar -->
         <section class="py-4 mb-4 bg-light">
-            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-3">
                         <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarReservacion">
@@ -34,24 +33,19 @@
             </div>
         </section>
 
-
         <section>
-            <div id="agregarReservacion" class="modal fade" tabindex="-1" aria-labelledby="agregarReservacionLabel" aria-hidden="true">
+            <div id="agregarReservacion" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-md">
                     <div class="modal-content">
                         <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title" id="agregarReservacionLabel">Agregar Reservación</h5>
+                            <h5 class="modal-title">Agregar Reservación</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form th:action="@{/reservaciones/guardar}" method="POST" class="was-validated">
+                        <form th:action="@{/reservaciones/guardar}" method="POST">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="idReservacion">ID</label>
-                                    <input type="number" id="idReservacion" name="idReservacion" class="form-control" required="true" />
-                                </div>
-                                <div class="mb-3">
                                     <label for="idHotel">Hotel</label>
-                                    <select name="idHotel" id="idHotel" class="form-control" required="true">
+                                    <select name="hotel.idHotel" id="idHotel" class="form-control" required>
                                         <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}">
                                             [[${hotel.nombre}]]
                                         </option>
@@ -59,7 +53,7 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="idCliente">Cliente</label>
-                                    <select name="idCliente" id="idCliente" class="form-control" required="true">
+                                    <select name="cliente.idCliente" id="idCliente" class="form-control" required>
                                         <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}">
                                             [[${cliente.nombre}]] [[${cliente.apellido}]]
                                         </option>
@@ -67,15 +61,15 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="fechaInicio">Fecha de Inicio</label>
-                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required="true"/>
+                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="fechaFin">Fecha de Fin</label>
-                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required="true"/>
+                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="habitacionAsignada">Habitación Asignada</label>
-                                    <input type="text" class="form-control" id="habitacionAsignada" name="habitacionAsignada" required="true"/>
+                                    <input type="text" id="habitacionAsignada" name="habitacionAsignada" class="form-control"/>
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -87,7 +81,7 @@
             </div>
         </section>
 
-
+        <!-- Seccion de Lista -->
         <section>
             <div class="container">
                 <div class="card">
@@ -109,17 +103,17 @@
                             </thead>
                             <tbody>
                                 <tr th:each="reservacion : ${reservaciones}">
-                                    <td>[[${reservacion.idReservacion}]]</td>
-                                    <td>[[${reservacion.hotel.nombre}]]</td>
-                                    <td>[[${reservacion.cliente.nombre}]] [[${reservacion.cliente.apellido}]]</td>
-                                    <td>[[${reservacion.fechaInicio}]]</td>
-                                    <td>[[${reservacion.fechaFin}]]</td>
-                                    <td>[[${reservacion.habitacionAsignada}]]</td>
+                                    <td th:text="${reservacion.idReservacion}"></td>
+                                    <td th:text="${reservacion.hotel.nombre}"></td>
+                                    <td th:text="${reservacion.cliente.nombre} + ' ' + ${reservacion.cliente.apellido}"></td>
+                                    <td th:text="${reservacion.fechaInicio}"></td>
+                                    <td th:text="${reservacion.fechaFin}"></td>
+                                    <td th:text="${reservacion.habitacionAsignada}"></td>
                                     <td>
-                                        <a th:href="@{/reservaciones/modificar/}+${reservacion.idReservacion}" class="btn btn-success">
+                                        <a th:href="@{/reservaciones/editar/{idReservacion}(idReservacion=${reservacion.idReservacion})}" class="btn btn-success">
                                             <i class="fas fa-pencil"></i> Editar
                                         </a>
-                                        <a th:href="@{/reservaciones/eliminar/}+${reservacion.idReservacion}" class="btn btn-danger">
+                                        <a th:href="@{/reservaciones/eliminar/{idReservacion}(idReservacion=${reservacion.idReservacion})}" class="btn btn-danger">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
                                     </td>
@@ -133,6 +127,56 @@
                 </div>
             </div>
         </section>
+
+        <!-- Seccion de modifica -->
+        <section th:if="${reservacion != null}">
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h4>Editar Reservación</h4>
+                    </div>
+                    <form th:action="@{/reservaciones/guardar}" method="POST">
+                        <div class="card-body">
+                            <input type="hidden" name="idReservacion" th:value="${reservacion.idReservacion}" />
+                            <div class="mb-3">
+                                <label for="idHotel">Hotel</label>
+                                <select name="hotel.idHotel" id="idHotel" class="form-control" required>
+                                    <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}" th:selected="${hotel.idHotel == reservacion.hotel.idHotel}">
+                                        [[${hotel.nombre}]]
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="idCliente">Cliente</label>
+                                <select name="cliente.idCliente" id="idCliente" class="form-control" required>
+                                    <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}" th:selected="${cliente.idCliente == reservacion.cliente.idCliente}">
+                                        [[${cliente.nombre}]] [[${cliente.apellido}]]
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaInicio">Fecha de Inicio</label>
+                                <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" th:value="${#dates.format(reservacion.fechaInicio, 'yyyy-MM-dd')}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fechaFin">Fecha de Fin</label>
+                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" th:value="${#dates.format(reservacion.fechaFin, 'yyyy-MM-dd')}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="habitacionAsignada">Habitación Asignada</label>
+                                <input type="text" id="habitacionAsignada" name="habitacionAsignada" class="form-control" th:value="${reservacion.habitacionAsignada}"/>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button class="btn btn-primary" type="submit">Guardar Cambios</button>
+                            <a href="#" th:href="@{/reservaciones}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <footer th:replace="layout/plantilla::footer"></footer>
+
     </body>
 </html>

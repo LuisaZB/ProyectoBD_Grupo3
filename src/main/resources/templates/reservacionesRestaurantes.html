@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Reservaciones Restaurantes</title>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla::header"></header>
+
+        <!-- Seccion de busquedad -->
+        <section class="py-4 mb-4 bg-light">
+            <div class="container">
+                <form th:action="@{/reservacionesRestaurantes/buscar}" method="get" class="d-flex">
+                    <input type="text" name="query" class="form-control me-2" placeholder="Buscar reservaciones por ID" />
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="text-center mt-3 p-1">
+            <h2>Reservaciones Restaurantes</h2>
+        </div>
+
+        <!-- Seccion de agregar -->
+        <section class="py-4 mb-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarReservacionRestaurante">
+                            <i class="fas fa-plus"></i> Agregar Reservación Restaurante
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div id="agregarReservacionRestaurante" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Agregar Reservación Restaurante</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form th:action="@{/reservacionesRestaurantes/guardar}" method="POST">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="idReservacion">Reservación</label>
+                                    <select name="reservacion.idReservacion" id="idReservacion" class="form-control" required>
+                                        <option th:each="reservacion : ${reservaciones}" th:value="${reservacion.idReservacion}">
+                                            [[${reservacion.idReservacion}]]
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha" name="fecha" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="hora">Hora</label>
+                                    <input type="time" id="hora" name="hora" class="form-control" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numeroDePersonas">Número de Personas</label>
+                                    <input type="number" id="numeroDePersonas" name="numeroDePersonas" class="form-control" required/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary" type="submit">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion de Lista -->
+        <section>
+            <div class="container">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Lista de Reservaciones Restaurantes</h4>
+                    </div>
+                    <div th:if="${reservacionesRestaurantes != null and !reservacionesRestaurantes.empty}">
+                        <table class="table table-striped table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Reservación</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Número de Personas</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="reservacionRestaurante : ${reservacionesRestaurantes}">
+                                    <td th:text="${reservacionRestaurante.idReservacionRestaurante}"></td>
+                                    <td th:text="${reservacionRestaurante.reservacion.idReservacion}"></td>
+                                    <td th:text="${reservacionRestaurante.fecha}"></td>
+                                    <td th:text="${reservacionRestaurante.hora}"></td>
+                                    <td th:text="${reservacionRestaurante.numeroDePersonas}"></td>
+                                    <td>
+                                        <a th:href="@{/reservacionesRestaurantes/editar/{idReservacionRestaurante}(idReservacionRestaurante=${reservacionRestaurante.idReservacionRestaurante})}" class="btn btn-success">
+                                            <i class="fas fa-pencil"></i> Editar
+                                        </a>
+                                        <a th:href="@{/reservacionesRestaurantes/eliminar/{idReservacionRestaurante}(idReservacionRestaurante=${reservacionRestaurante.idReservacionRestaurante})}" class="btn btn-danger">
+                                            <i class="fas fa-trash"></i> Eliminar
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center p-2" th:if="${reservacionesRestaurantes == null or reservacionesRestaurantes.empty}">
+                        <span>No se encontraron reservaciones</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seccion de modifica -->
+        <section th:if="${reservacionRestaurante != null}">
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h4>Editar Reservación Restaurante</h4>
+                    </div>
+                    <form th:action="@{/reservacionesRestaurantes/guardar}" method="POST">
+                        <div class="card-body">
+                            <input type="hidden" name="idReservacionRestaurante" th:value="${reservacionRestaurante.idReservacionRestaurante}" />
+                            <div class="mb-3">
+                                <label for="idReservacion">Reservación</label>
+                                <select name="reservacion.idReservacion" id="idReservacion" class="form-control" required>
+                                    <option th:each="reservacion : ${reservaciones}" th:value="${reservacion.idReservacion}">
+                                        [[${reservacion.idReservacion}]]
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fecha">Fecha</label>
+                                <input type="date" class="form-control" id="fecha" name="fecha" th:value="${reservacionRestaurante.fecha}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="hora">Hora</label>
+                                <input type="time" id="hora" name="hora" class="form-control" th:value="${reservacionRestaurante.hora}" required/>
+                            </div>
+                            <div class="mb-3">
+                                <label for="numeroDePersonas">Número de Personas</label>
+                                <input type="number" id="numeroDePersonas" name="numeroDePersonas" class="form-control" th:value="${reservacionRestaurante.numeroDePersonas}" required/>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <a href="#" th:href="@{/reservacionesRestaurantes}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <footer th:replace="layout/plantilla::footer"></footer>
+
+    </body>
+</html>

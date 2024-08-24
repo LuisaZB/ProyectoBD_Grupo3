@@ -6,22 +6,24 @@
     <body>
         <header th:replace="layout/plantilla::header"></header>
 
+        <!-- Seccion de busquedad -->
         <section class="py-4 mb-4 bg-light">
             <div class="container">
                 <form th:action="@{/clientes/buscar}" method="get" class="d-flex">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar clientes" aria-label="Buscar">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar por ID o correo electrónico" aria-label="Buscar" required>
                         <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
         </section>
 
+
         <div class="text-center mt-3 p-1">
             <h2>Clientes</h2>
         </div>
 
-
+        <!-- Seccion de agregar -->
         <section class="py-4 mb-4 bg-light">
-            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
+            <div class="container">
                 <div class="row">
                     <div class="col-md-3">
                         <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarCliente">
@@ -32,7 +34,6 @@
             </div>
         </section>
 
-
         <section>
             <div id="agregarCliente" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-md">
@@ -41,27 +42,23 @@
                             <h5 class="modal-title">Agregar Cliente</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form th:action="@{/clientes/guardar}" method="POST" class="was-validated">
+                        <form th:action="@{/clientes/guardar}" method="POST">
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="idCliente">ID</label>
-                                    <input type="number" id="idCliente" name="idCliente" class="form-control" required="true" />
-                                </div>
-                                <div class="mb-3">
                                     <label for="nombre">Nombre</label>
-                                    <input type="text" class="form-control" name="nombre" required="true"/>
+                                    <input type="text" id="nombre" name="nombre" class="form-control" required />
                                 </div>
                                 <div class="mb-3">
                                     <label for="apellido">Apellido</label>
-                                    <input type="text" class="form-control" name="apellido" required="true"/>
+                                    <input type="text" id="apellido" name="apellido" class="form-control" required />
                                 </div>
                                 <div class="mb-3">
                                     <label for="correoElectronico">Correo Electrónico</label>
-                                    <input type="email" class="form-control" name="correoElectronico" required="true"/>
+                                    <input type="email" id="correoElectronico" name="correoElectronico" class="form-control" required />
                                 </div>
                                 <div class="mb-3">
                                     <label for="telefono">Teléfono</label>
-                                    <input type="tel" class="form-control" name="telefono" required="true"/>
+                                    <input type="tel" id="telefono" name="telefono" class="form-control" required />
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -73,7 +70,7 @@
             </div>
         </section>
 
-
+        <!-- Seccion de Lista -->
         <section>
             <div class="container">
                 <div class="card">
@@ -94,16 +91,16 @@
                             </thead>
                             <tbody>
                                 <tr th:each="cliente : ${clientes}">
-                                    <td>[[${cliente.idCliente}]]</td>
-                                    <td>[[${cliente.nombre}]]</td>
-                                    <td>[[${cliente.apellido}]]</td>
-                                    <td>[[${cliente.correoElectronico}]]</td>
-                                    <td>[[${cliente.telefono}]]</td>
+                                    <td th:text="${cliente.idCliente}"></td>
+                                    <td th:text="${cliente.nombre}"></td>
+                                    <td th:text="${cliente.apellido}"></td>
+                                    <td th:text="${cliente.correoElectronico}"></td>
+                                    <td th:text="${cliente.telefono}"></td>
                                     <td>
-                                        <a th:href="@{/clientes/modificar/}+${cliente.idCliente}" class="btn btn-success">
+                                        <a th:href="@{/clientes/editar/{idCliente}(idCliente=${cliente.idCliente})}" class="btn btn-success">
                                             <i class="fas fa-pencil"></i> Editar
                                         </a>
-                                        <a th:href="@{/clientes/eliminar/}+${cliente.idCliente}" class="btn btn-danger">
+                                        <a th:href="@{/clientes/eliminar/{idCliente}(idCliente=${cliente.idCliente})}" class="btn btn-danger">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
                                     </td>
@@ -112,11 +109,48 @@
                         </table>
                     </div>
                     <div class="text-center p-2" th:if="${clientes == null or clientes.empty}">
-                        <span>No hay clientes disponibles</span>
+                        <span>No se encontraron clientes</span>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Seccion de modifica -->
+        <section th:if="${cliente != null}">
+            <div class="container mt-4">
+                <div class="card">
+                    <div class="card-header bg-info text-white">
+                        <h4>Editar Cliente</h4>
+                    </div>
+                    <form th:action="@{/clientes/guardar}" method="POST">
+                        <div class="card-body">
+                            <input type="hidden" name="idCliente" th:value="${cliente.idCliente}" />
+                            <div class="mb-3">
+                                <label for="nombre">Nombre</label>
+                                <input type="text" id="nombre" name="nombre" th:value="${cliente.nombre}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="apellido">Apellido</label>
+                                <input type="text" id="apellido" name="apellido" th:value="${cliente.apellido}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="correoElectronico">Correo Electrónico</label>
+                                <input type="email" id="correoElectronico" name="correoElectronico" th:value="${cliente.correoElectronico}" class="form-control" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="telefono">Teléfono</label>
+                                <input type="tel" id="telefono" name="telefono" th:value="${cliente.telefono}" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                            <a th:href="@{/clientes}" class="btn btn-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
         <footer th:replace="layout/plantilla::footer"></footer>
     </body>
 </html>

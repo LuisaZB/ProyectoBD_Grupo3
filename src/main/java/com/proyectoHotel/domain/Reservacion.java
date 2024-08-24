@@ -1,14 +1,20 @@
-
 package com.proyectoHotel.domain;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
+@Data
 @Entity
 @Table(name = "Reservaciones")
-public class Reservacion {
+public class Reservacion implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Reservacion")
     private Long idReservacion;
 
@@ -31,8 +37,6 @@ public class Reservacion {
     @Column(name = "Habitacion_asignada")
     private String habitacionAsignada;
 
-    
-    
     public Long getIdReservacion() {
         return idReservacion;
     }
