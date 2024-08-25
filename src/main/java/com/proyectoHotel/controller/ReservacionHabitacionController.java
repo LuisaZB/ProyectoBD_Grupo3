@@ -9,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -54,10 +53,10 @@ public class ReservacionHabitacionController {
         return "redirect:/reservacionesHabitacion";
     }
 
+    
     @GetMapping("/buscar")
     public String buscarReservacionHabitacion(@RequestParam("query") String query, Model model) {
-        List<ReservacionHabitacion> resultados = reservacionHabitacionDao.findByHabitacionAsignadaContainingIgnoreCase(query);
-        model.addAttribute("reservacionesHabitacion", resultados);
+        model.addAttribute("reservacionesHabitacion", reservacionHabitacionDao.findAll());
         return "reservacionesHabitacion";
     }
 }
