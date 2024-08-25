@@ -10,8 +10,6 @@ import lombok.Data;
 @Table(name = "Reservaciones_Servicios_Adicionales")
 public class ReservacionServicioAdicional implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_Reservacion_Servicio_Adicional")
@@ -28,6 +26,10 @@ public class ReservacionServicioAdicional implements Serializable {
     @Column(name = "Fecha_Servicio", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaServicio;
+
+    
+    @Column(name = "Descripcion")
+    private String descripcion;
 
     
     public Long getIdReservacionServicioAdicional() {

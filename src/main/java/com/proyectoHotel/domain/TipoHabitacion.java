@@ -1,28 +1,23 @@
 package com.proyectoHotel.domain;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Data
 @Entity
-@Table(name = "Tipos_de_Habitaciones")
-public class TipoHabitacion implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class TipoHabitacion {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Tipo_Habitacion")
     private Long idTipoHabitacion;
 
-    @Column(name = "Nombre_Tipo", nullable = false)
-    private String nombreTipo;
+    private String nombre; 
 
-    @Column(name = "Descripcion")
     private String descripcion;
+    private Double precio;
 
-  
+    
     public Long getIdTipoHabitacion() {
         return idTipoHabitacion;
     }
@@ -31,12 +26,12 @@ public class TipoHabitacion implements Serializable {
         this.idTipoHabitacion = idTipoHabitacion;
     }
 
-    public String getNombreTipo() {
-        return nombreTipo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreTipo(String nombreTipo) {
-        this.nombreTipo = nombreTipo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
@@ -45,5 +40,13 @@ public class TipoHabitacion implements Serializable {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 }

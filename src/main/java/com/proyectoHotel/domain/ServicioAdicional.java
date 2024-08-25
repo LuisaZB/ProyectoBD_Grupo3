@@ -1,28 +1,20 @@
 package com.proyectoHotel.domain;
 
-import jakarta.persistence.*;
-import java.io.Serializable;
-import lombok.Data;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Data
 @Entity
-@Table(name = "Servicios_Adicionales")
-public class ServicioAdicional implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class ServicioAdicional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_Servicio_Adicional")
     private Long idServicioAdicional;
+    
+    private String nombre; 
 
-    @Column(name = "Nombre_Servicio", nullable = false)
-    private String nombreServicio;
-
-    @Column(name = "Descripcion")
     private String descripcion;
-
-    @Column(name = "Precio", nullable = false)
     private Double precio;
 
     
@@ -34,12 +26,12 @@ public class ServicioAdicional implements Serializable {
         this.idServicioAdicional = idServicioAdicional;
     }
 
-    public String getNombreServicio() {
-        return nombreServicio;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreServicio(String nombreServicio) {
-        this.nombreServicio = nombreServicio;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcion() {
