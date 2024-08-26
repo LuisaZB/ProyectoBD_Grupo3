@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+    <head th:replace="~{layout/plantilla :: head}">
+        <title>Facturas</title>
+    </head>
+    <body>
+        <header th:replace="layout/plantilla::header"></header>
+
+        <div class="container mt-5">
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading">¡Error!</h4>
+                <p th:text="${message}">Hubo un problema al procesar la solicitud.</p>
+                <hr>
+                    <a href="/" class="btn btn-primary">Regresar a Inicio</a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,17 +1,24 @@
-
 package com.proyectoHotel.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.ModelAndView;
 
+@ControllerAdvice
+public class ErrorController {
 
-@Controller
-public class ErrorController implements org.springframework.boot.web.servlet.error.ErrorController {
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleAllExceptions(Exception ex) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", "Hubo un error inesperado. Por favor, inténtalo de nuevo más tarde.");
+        return modelAndView;
+    }
 
-    @RequestMapping("/error")
-    public String handleError() {
-        
-        return "error"; 
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ModelAndView handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("message", "No se puede eliminar porque está asociado a otros registros.");
+        return modelAndView;
     }
 }
-

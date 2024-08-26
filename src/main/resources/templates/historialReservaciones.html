@@ -59,10 +59,7 @@
                                     <td>[[${historial.fechaModificacion}]]</td>
                                     <td>[[${historial.comentario}]]</td>
                                     <td>
-                                        <a th:href="@{/historialReservaciones/modificar/}+${historial.idHistorial}" class="btn btn-success">
-                                            <i class="fas fa-pencil"></i> Editar
-                                        </a>
-                                        <a th:href="@{/historialReservaciones/eliminar/}+${historial.idHistorial}" class="btn btn-warning">
+                                        <a th:href="@{/historialReservaciones/eliminar/}+${historial.idHistorial}" class="btn btn-danger">
                                             <i class="fas fa-trash"></i> Eliminar
                                         </a>
                                     </td>
