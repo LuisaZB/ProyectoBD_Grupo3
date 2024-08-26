@@ -79,17 +79,4 @@ public class ReservacionesController {
         model.addAttribute("clientes", clienteDao.findAll());
         return "reservaciones";
     }
-
-    @GetMapping("/habitaciones")
-    public String mostrarHabitaciones() {
-        
-        return "habitaciones"; 
-    }
-
-    @GetMapping("/servicios-adicionales")
-    public String mostrarServiciosAdicionales() {
-        
-        return "servicios-adicionales"; 
-    }
-
 }

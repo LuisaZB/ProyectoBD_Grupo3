@@ -10,10 +10,11 @@
 
         <section class="py-4 mb-4 bg-light">
             <div class="container">
-                <form th:action="@{/comentarios/buscar}" method="get" class="d-flex">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar comentarios" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                </form>
+        <form th:action="@{/comentarios/buscar}" method="get" class="d-flex">
+            <input class="form-control me-2" type="search" name="query" placeholder="Buscar comentarios por nombre de hotel" aria-label="Buscar"/>
+            <button class="btn btn-outline-success" type="submit">Buscar</button>
+        </form>
+
             </div>
         </section>
 
@@ -21,70 +22,68 @@
             <h2>Comentarios</h2>
         </div>
 
+        <!-- ------------------------------Agregar Comentario-------------------------------------------------- -->
         <section class="py-4 mb-4 bg-light">
-            <div class="container" sec:authorize="hasRole('ROLE_ADMIN')">
-                <div class="row">
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarComentario">
-                            <i class="fas fa-plus"></i> Agregar Comentario
-                        </button>
-                    </div>
-                </div>
+        <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-success btn-block" data-bs-toggle="modal" data-bs-target="#agregarComentario">
+                    <i class="fas fa-plus"></i> Agregar Comentario
+                </button>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <section>
-            <div id="agregarComentario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header bg-info text-white">
-                            <h5 class="modal-title">Agregar Comentario</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<section>
+    <div id="agregarComentario" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title">Agregar Comentario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form th:action="@{/comentarios/guardar}" method="POST" class="was-validated">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="idComentario">ID</label>
+                            <input type="number" id="idComentario" name="idComentario" class="form-control" required />
                         </div>
-                        <form th:action="@{/comentarios/guardar}" method="POST" class="was-validated">
-                            <div class="modal-body">
-                                <div class="mb-3">
-                                    <label for="idComentario">ID</label>
-                                    <input type="number" id="idComentario" name="idComentario" class="form-control" required="true" />
-                                </div>
-                                <div class="mb-3">
-                                    <label for="idHotel">Hotel</label>
-                                    <select name="idHotel" class="form-control" required="true">
-                                        <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}">
-                                            [[${hotel.nombre}]]
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="idCliente">Cliente</label>
-                                    <select name="idCliente" class="form-control" required="true">
-                                        <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}">
-                                            [[${cliente.nombre}]] [[${cliente.apellido}]]
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="comentario">Comentario</label>
-                                    <textarea class="form-control" name="comentario" rows="4" required="true"></textarea>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="puntuacion">Puntuación</label>
-                                    <input type="number" class="form-control" name="puntuacion" min="1" max="5" required="true"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fecha">Fecha</label>
-                                    <input type="date" class="form-control" name="fecha" required="true"/>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="btn btn-primary" type="submit">Guardar</button>
-                            </div>
-                        </form>
+                        <div class="mb-3">
+                            <label for="idHotel">Hotel</label>
+                            <select id="idHotel" name="idHotel" class="form-control" required>
+                                <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}">[[${hotel.nombre}]]</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="idCliente">Cliente</label>
+                            <select id="idCliente" name="idCliente" class="form-control" required>
+                                <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}">[[${cliente.nombre}]] [[${cliente.apellido}]]</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="comentario">Comentario</label>
+                            <textarea id="comentario" name="comentario" class="form-control" rows="4" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="puntuacion">Puntuación</label>
+                            <input type="number" id="puntuacion" name="puntuacion" class="form-control" min="1" max="5" required />
+                        </div>
+                        <div class="mb-3">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" id="fecha" name="fecha" class="form-control" required />
+                        </div>
                     </div>
-                </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Guardar</button>
+                    </div>
+                </form>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
+        <!-- -------------------------Listado de comentarios---------------------------------------------- -->
         <section>
             <div class="container">
                 <div class="card">
@@ -130,6 +129,54 @@
                 </div>
             </div>
         </section>
+        
+        <!-- --------------------------------Editar Comentario-------------------------------- -->
+        
+        <section th:if="${comentario != null}">
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4>Editar Comentario</h4>
+            </div>
+            <form th:action="@{/comentarios/guardar}" method="POST">
+                <div class="card-body">
+                    <input type="hidden" name="idComentario" th:value="${comentario.idComentario}" />
+                    <div class="mb-3">
+                        <label for="idHotel">Hotel</label>
+                        <select id="idHotel" name="idHotel" class="form-control" required>
+                            <option th:each="hotel : ${hoteles}" th:value="${hotel.idHotel}" th:checked="${hotel.idHotel == comentario.hotel.idHotel}">[[${hotel.nombre}]]</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="idCliente">Cliente</label>
+                        <select id="idCliente" name="idCliente" class="form-control" required>
+                            <option th:each="cliente : ${clientes}" th:value="${cliente.idCliente}" th:checked="${cliente.idCliente == comentario.cliente.idCliente}">[[${cliente.nombre}]] [[${cliente.apellido}]]</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="comentario">Comentario</label>
+                        <textarea id="comentario" name="comentario" class="form-control" rows="4" th:text="${comentario.comentario}" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="puntuacion">Puntuación</label>
+                        <input type="number" id="puntuacion" name="puntuacion" class="form-control" th:value="${comentario.puntuacion}" min="1" max="5" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="fecha">Fecha</label>
+                        <input type="date" id="fecha" name="fecha" class="form-control" th:value="${#dates.format(comentario.fecha, 'yyyy-MM-dd')}" required />
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                    <a href="#" th:href="@{/comentarios}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+        
+        
         <footer th:replace="layout/plantilla::footer"></footer>
     </body>
 </html>

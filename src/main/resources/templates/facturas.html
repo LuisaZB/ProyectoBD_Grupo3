@@ -11,8 +11,8 @@
         <section class="py-4 mb-4 bg-light">
             <div class="container">
                 <form th:action="@{/facturas/buscar}" method="get" class="d-flex">
-                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar facturas" aria-label="Buscar">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar facturas por id" aria-label="Buscar"/>
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
             </div>
         </section>
@@ -33,6 +33,7 @@
             </div>
         </section>
 
+        <!-- Modal para agregar factura -->
         <section>
             <div id="agregarFactura" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-md">
@@ -49,12 +50,13 @@
                                 </div>
                                 <div class="mb-3">
                                     <label for="idReservacion">Reservación</label>
-                                    <select name="idReservacion" id="idReservacion" class="form-control" required="true">
+                                    <select name="reservacion.idReservacion" id="idReservacion" class="form-control" required="true">
                                         <option th:each="reservacion : ${reservaciones}" th:value="${reservacion.idReservacion}">
                                             [[${reservacion.hotel.nombre}]] - [[${reservacion.cliente.nombre}]] [[${reservacion.cliente.apellido}]]
                                         </option>
                                     </select>
                                 </div>
+
                                 <div class="mb-3">
                                     <label for="fechaEmision">Fecha de Emisión</label>
                                     <input type="date" class="form-control" id="fechaEmision" name="fechaEmision" required="true"/>
@@ -72,6 +74,9 @@
                 </div>
             </div>
         </section>
+
+
+
 
         <section>
             <div class="container">
@@ -99,9 +104,10 @@
                                     <td>[[${factura.fechaEmision}]]</td>
                                     <td>[[${factura.total}]]</td>
                                     <td>
-                                        <a th:href="@{/facturas/modificar/}+${factura.idFactura}" class="btn btn-success">
+                                        <a th:href="@{/facturas/modificar/}+${factura.idFactura}" data-id="${factura.idFactura}" class="btn btn-success">
                                             <i class="fas fa-pencil"></i> Editar
                                         </a>
+
                                         <a th:href="@{/facturas/eliminar/}+${factura.idFactura}" style="color: white;" class="btn btn-warning">
                                             <i class="fas fa-file-invoice-dollar"></i> Pagar
                                         </a>
@@ -116,6 +122,46 @@
                 </div>
             </div>
         </section>
+        <section>
+            <div id="editarFacturaModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-info text-white">
+                            <h5 class="modal-title">Editar Factura</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="editarFacturaContent" class="modal-body">
+                            <!-- El contenido del fragmento se cargará aquí -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
         <footer th:replace="layout/plantilla::footer"></footer>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const editarButtons = document.querySelectorAll('a[data-bs-toggle="modal"]');
+                editarButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        const facturaId = this.getAttribute('data-id');
+                        fetch(`/facturas/modificar/${facturaId}`)
+                                .then(response => response.text())
+                                .then(data => {
+                                    document.querySelector('#editarFacturaContent').innerHTML = data;
+                                    const modal = new bootstrap.Modal(document.getElementById('editarFacturaModal'));
+                                    modal.show();
+                                });
+                    });
+                });
+            });
+        </script>
+
+
     </body>
 </html>

@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 @Table(name = "Comentarios_Hotel")
 public class ComentarioHotel {
-
+    
     @Id
     @Column(name = "ID_Comentario")
     private Long idComentario;
@@ -26,6 +26,7 @@ public class ComentarioHotel {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "Fecha")
     private Date fecha;
+
 
     
     public Long getIdComentario() {
